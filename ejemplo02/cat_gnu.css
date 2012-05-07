@@ -1,0 +1,15 @@
+#cat_gnu{
+	width:400px;
+	height:400px;
+	border: 10px solid #000;
+	background: #FB1B00;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #FB1B00, #5F0500);
+	background-image: -ms-linear-gradient(top, #FB1B00, #5F0500);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FB1B00), to(#5F0500));
+	background-image: -webkit-linear-gradient(top, #FB1B00, #5F0500);
+	background-image: -o-linear-gradient(top, #FB1B00, #5F0500);
+	background-image: linear-gradient(top, #FB1B00, #5F0500);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FB1B00', endColorstr='#5F0500',GradientType=0 );
+	margin:auto;
+}

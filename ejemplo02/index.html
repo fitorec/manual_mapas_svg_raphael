@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<title>Ejemplo 2 gato GNU</title>
+<!-- Agregamos las librerias base -->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/raphael-min.js"></script>
+<!-- Animacion del gato -->
+<script type="text/javascript" src="cat_gnu.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="cat_gnu.css" />
+<!-- Agregando el evento click sobre el gato -->
+<script language="Javascript"  type="text/javascript">
+jQuery(function($){
+	/* En esta etapa el path pathGatoGNU ya fue definido y solo le agregamos el evento click */
+	pathGatoGNU.click(function(){
+		alert('Miauuuuuuuuuu!');
+	});
+	
+});
+</script>
+</head>
+<body>
+<h1>Ejemplo 2 gato GNU</h1>
+
+<div id="cat_gnu">
+</div>
+
+</body>
+</html>
