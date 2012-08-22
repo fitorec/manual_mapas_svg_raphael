@@ -1,32 +1,68 @@
-<!DOCTYPE html>
-<html>
-<title>Haciendo mapas con SVG y Raphael.js</title>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/raphael-min.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-<!-- Mapa México -->
-<script type="text/javascript" src="ejem01_map_mx/paths_mexico.js"></script>
-<script type="text/javascript" src="ejem01_map_mx/init_mexico.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="ejem01_map_mx/mapa_mexico.css" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Desarrollando Mapas con SVG y Raphael.js</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="./css/style.css" />
+	<link rel="stylesheet" type="text/css" href="./css/jquery.snippet.css" />
+	<link rel='icon' type='image/png' href='./img/favicon.png' />
+	<script type='text/javascript' src='./js/jquery-1.7.2.js'></script>
+	<script type='text/javascript' src='./js/jquery.snippet.js'></script>
+	
+	<script type="text/javascript" src="js/raphael-min.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
+	<!-- Mapa México -->
+	<script type="text/javascript" src="ejem01_map_mx/paths_mexico.js"></script>
+	<script type="text/javascript" src="ejem01_map_mx/init_mexico.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="ejem01_map_mx/mapa_mexico.css" />
+	<!-- Animacion del gato -->
+	<script type="text/javascript" src="./ejemplo02/cat_gnu.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="./ejemplo02/cat_gnu.css" />
+	
+	<script type='text/javascript'>
+	pageConf	= {fileName:'/index.html', sesion:0, num_sesiones:5};
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33125186-1']);
+  _gaq.push(['_trackPageview']);
 
-<!-- Animacion del gato -->
-<script type="text/javascript" src="./ejemplo02/cat_gnu.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="./ejemplo02/cat_gnu.css" />
-
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script  type="text/javascript">
+$(function() {
+	$("pre").snippet("javascript", {style:'darkness'});
+});
+</script>
 </head>
 <body>
+<div id='head'>
+	<a href='http://www.adsl.org.mx/' id='logoADSL'>Academia de software libre</a>
+	<h1>
+		<a id='link_principal' href='./index.html'>Desarrollando Mapas con SVG y Raphael.js</a><br />
+		<span id='descripcion'>Compartiendo conocimientos</span>
+	</h1>
+</div>
 <div id='content'>
+<div id='tabla_contenidos'></div>
 <h1>Desarrollando Mapas con SVG y Raphael.js</h1>
 
-<p>Hace algunos meses escribi un articulo acerca del desarrollo de un mapa de <a href="http://fitorec.wordpress.com/2011/04/11/mapa-de-mexico-con-svg-y-javascript-empotrado-en-html/">México con Javascript y SVG</a>.</p>
+<blockquote>
+  <p><strong>Nota:</strong> Esto sólo es un borrador de algun futuro taller del <a href="http://adsl.org.mx/">ADSL</a>.</p>
+</blockquote>
 
-<p>Hoy a la distancia me permito hacer un analisis respecto a la solución desarrollada en aquella ocasión, y presento otra solución bajo las mismas premisas:</p>
+<p>Hace algunos meses escribí un articulo acerca del desarrollo de un mapa de <a href="http://fitorec.wordpress.com/2011/04/11/mapa-de-mexico-con-svg-y-javascript-empotrado-en-html/">México con Javascript y SVG</a>.</p>
+
+<p>Hoy a la distancia me permito hacer un análisis respecto a la solución desarrollada en aquella ocasión, y presento otra solución bajo las mismas premisas:</p>
 
 <ul>
-<li><strong>Sin embedidos que requieran plugins especielas</strong>(No Flash, Apples, ni SilverXX).</li>
-<li>Debera ser <strong>Cross-Browser</strong>.</li>
-<li>Debera ser lo mas reutilizable posible.</li>
-<li>Debera estar basada en estandares.</li>
+<li><strong>Sin embedidos que requieran plugins especiales</strong>(No Flash, Apples, ni SilverXX).</li>
+<li>Deberá ser <strong>Cross-Browser</strong>.</li>
+<li>Deberá ser lo mas reutilizable posible.</li>
+<li>Deberá estar basada en estándares.</li>
 </ul>
 
 <h3>Resultado.</h3>
@@ -36,15 +72,15 @@
     </div>
 </div>
 
-<p>Este manual tratare de explicar una metodologia para el desarrollo de dichos mapas. El cual esta dividido en 3 partes: en la <strong>1ra</strong> parte tratare de explicar como genearar un embedido basado en canvas desarrollado con <strong>svg</strong> y <strong>Javascript</strong>, la <strong>2da</strong> parte explicare como desarrollar tus propios mapas <strong>SVG</strong> y como integrarlos, y finalmente como <strong>3ra</strong> parte consta de la conclusión e ideas a futuro, sin mas espero que sea de tu agrado.</p>
+<p>Este manual tratare de explicar una metodología para el desarrollo de dichos mapas. El cual esta dividido en 3 partes: en la <strong>1ra</strong> parte tratare de explicar como generar un embebido basado en canvas desarrollado con <strong>svg</strong> y <strong>Javascript</strong>, la <strong>2da</strong> parte explicare como desarrollar tus propios mapas <strong>SVG</strong> y como integrarlos, y finalmente como <strong>3ra</strong> parte consta de la conclusión e ideas a futuro, sin mas espero que sea de tu agrado.</p>
 
 <h2>Entrenamiento previo</h2>
 
 <blockquote>
-  <p><a href="http://raphaeljs.com/"><strong>Raphael.js</strong></a> es un framework para el manejo de canvas, la caracteristica  que mas me agrada es que esta basado en el estandar <strong>SVG</strong>.</p>
+  <p><a href="http://raphaeljs.com/"><strong>Raphael.js</strong></a> es un framework para el manejo de canvas, la característica  que mas me agrada es que esta basado en el estándar <strong>SVG</strong>.</p>
 </blockquote>
 
-<p>Por ejemplo el estandar <strong>svg</strong> discribe una secuencia de puntos(ó nodos) los cuales pueden ser curvas de baizer entre otras, esta secuencia de puntos es conocida como <a href="http://w3c.com/svg/path"><strong>path</strong></a>. por otra parte <strong>Raphael</strong> define una función con el mismo nombre <strong>path</strong> el cual recibe como argumento un <code>String</code> que describe la secuencia de puntos.</p>
+<p>Por ejemplo el estándar <strong>svg</strong> describe una secuencia de puntos(ó nodos) los cuales pueden ser curvas de baizer entre otras, esta secuencia de puntos es conocida como <a href="http://w3c.com/svg/path"><strong>path</strong></a>. por otra parte <strong>Raphael</strong> define una función con el mismo nombre <strong>path</strong> el cual recibe como argumento un <code>String</code> que describe la secuencia de puntos.</p>
 
 <h3>Creo que queda más claro con el siguiente código Javascript:</h3>
 
@@ -62,29 +98,31 @@ pathGatoGNU.attr({fill: '#000000',stroke: '#3C0600','stroke-width': 1});
 &lt;/div&gt;
 </code></pre>
 
-<p>Como podemos ver existe mucha trasparencia entre el estandar <strong>SVG</strong> y el espacio de nombres(<code>namespace</code>) que define <strong>Raphael.js</strong>, en este caso por cuestiones didacticas el argumento que recibe path es solo una pequeña secuencia, pero puedes ver el resultado:</p>
+<p>Como podemos ver existe mucha transparencia entre el estándar <strong>SVG</strong> y el espacio de nombres(<code>namespace</code>) que define <strong>Raphael.js</strong>, en este caso por cuestiones didácticas el argumento que recibe path es solo una pequeña secuencia, pero puedes ver el resultado:</p>
 
 <div id="cat_gnu">
 </div>
 
-<h2>Descubriendo el Came, Came Ha!!.</h2>
+<h2>Haciendo Came, Came Ha!!.</h2>
 
-<p>El <strong>came came Ha!</strong> No es otra cosa que la técnica que no es mia, pero  que descubri, la aprendi, que estoy intentando mejorar y compartir.</p>
+<blockquote>
+  <p>Entiéndase <strong>came came Ha!</strong> como una técnica que no es mía(<em>del autor de este articulo</em>), pero  que descubrí, la aprendí, que estoy intentando mejorar y compartir.</p>
+</blockquote>
 
-<p>Tras una busqueda me encontre con un articulo que personalmente me agrado mucho la idea y del cual baso la primera parte de este manual, dejo la liga la cual te invito a revisar(aunque tratare de explicar a mayor detalle):</p>
+<p>Tras una búsqueda me encontré con un articulo que personalmente me agrado mucho la idea y del cual baso la primera parte de este manual, dejo la liga la cual te invito a revisar(aunque tratare de explicar a mayor detalle):</p>
 
 <p><a href="http://return-true.com/2011/06/using-raphaeljs-to-create-a-map/">http://return-true.com/2011/06/using-raphaeljs-to-create-a-map/</a></p>
 
-<p>Dada la explicación previa acerca de <strong>Raphael.js</strong>, ¿que pasaria si a <code>pathGatoGNU</code> le agregamos algun evento?, por ejemplo el evento <code>click</code>, como se muetra acontinuación:</p>
+<p>Dada la explicación previa acerca de <strong>Raphael.js</strong>, ¿que pasaría si a <code>pathGatoGNU</code> le agregamos algún evento?, por ejemplo el evento <code>click</code>, como se muestra a continuación:</p>
 
 <pre><code>pathGatoGNU.click(function(){
     alert('Miauuuuuuuuuu!');
 });
 </code></pre>
 
-<p>El resultado lo puedes ver en el <a href="./ejemplo02/index.html">ejemplo 02</a> de este pequeño manual.</p>
+<p>El resultado lo puedes ver en el <a href="./ejemplo02/index.html">ejemplo 02</a> de este pequeño manual, puedes probar con darle <code>click</code> encima del <strong>gatoGNU</strong>.</p>
 
-<p>Esta misma idea la podemos trasladar al evento <code>hover</code> y con esto generamos el efecto del cambio de color en el momento en que el mouse se posiciones sobre algun <code>path</code> y con el evento <code>click</code> podemos cambiar el <code>location</code> de nuestra pagina y con esto generar un enlace, pues simplemente así es como funciona el <strong>mapa de México</strong> que se mostro en el inicio.</p>
+<p>Esta misma idea la podemos trasladar al evento <code>hover</code> y con esto generamos el efecto del cambio de color en el momento en que el mouse se posiciones sobre algun <code>path</code> y con el evento <code>click</code> podemos cambiar el <code>location</code> de nuestra pagina y con esto generar un enlace, pues simplemente así es como funciona el <strong>mapa de México</strong> que se mostró en el inicio.</p>
 
 <p>En este caso como son varios estados la información de los <code>paths</code> se agregaron en un objeto <code>json</code> el cual tiene la siguiente sintaxis.</p>
 
@@ -97,17 +135,16 @@ pathGatoGNU.attr({fill: '#000000',stroke: '#3C0600','stroke-width': 1});
         url: '#',
         path: 'm 71.78125,...,-1.8125 z'
     },
-    /* ... las demas estados ... */
+    /* ... Los datos de demas estados ... */
     VER: {
         name: 'Veracruz',
         slug: 'VER',
         url: '#',
         path: 'm 400.343,..,-1.71875 z'
     }
-}
-</code></pre>
+}</code></pre>
 
-<h2>Atiendo el siguiente Código en Javascript</h2>
+<h2>Observe el siguiente Código en Javascript</h2>
 
 <pre><code>jQuery(function($){
     var r = Raphael('chaptersMap', 900, 600);
@@ -148,8 +185,17 @@ pathGatoGNU.attr({fill: '#000000',stroke: '#3C0600','stroke-width': 1});
 });
 </code></pre>
 
-<p><a href="http://raphaeljs.com/australia.html">http://raphaeljs.com/australia.html</a></p>
+<p>Otro ejemplo interesante:</p>
 
+<ul>
+<li><a href="http://raphaeljs.com/australia.html">http://raphaeljs.com/australia.html</a></li>
+</ul>
+</div><!-- end content -->
+<div id="pie_pagina">
+	<div id="agradecimientos">
+		<a class="copy" rel="license" href="http://creativecommons.org/licenses/by/2.5/mx/">&nbsp;</a>
+    <a class="xhtml-valido" href="http://validator.w3.org/check?uri=referer">&nbsp;</a>
+	</div>
 </div>
 </body>
 </html>

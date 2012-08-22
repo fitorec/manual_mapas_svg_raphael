@@ -1,13 +1,15 @@
-#Desarrollando Mapas con SVG y Raphael.js
+# Desarrollando Mapas con SVG y Raphael.js
 
-Hace algunos meses escribi un articulo acerca del desarrollo de un mapa de [México con Javascript y SVG](http://fitorec.wordpress.com/2011/04/11/mapa-de-mexico-con-svg-y-javascript-empotrado-en-html/).
+> **Nota:** Esto sólo es un borrador de algun futuro taller del [ADSL](http://adsl.org.mx/).
 
-Hoy a la distancia me permito hacer un analisis respecto a la solución desarrollada en aquella ocasión, y presento otra solución bajo las mismas premisas:
+Hace algunos meses escribí un articulo acerca del desarrollo de un mapa de [México con Javascript y SVG](http://fitorec.wordpress.com/2011/04/11/mapa-de-mexico-con-svg-y-javascript-empotrado-en-html/).
 
- - **Sin embedidos que requieran plugins especielas**(No Flash, Apples, ni SilverXX).
- - Debera ser **Cross-Browser**.
- - Debera ser lo mas reutilizable posible.
- - Debera estar basada en estandares.
+Hoy a la distancia me permito hacer un análisis respecto a la solución desarrollada en aquella ocasión, y presento otra solución bajo las mismas premisas:
+
+ - **Sin embedidos que requieran plugins especiales**(No Flash, Apples, ni SilverXX).
+ - Deberá ser **Cross-Browser**.
+ - Deberá ser lo mas reutilizable posible.
+ - Deberá estar basada en estándares.
 
 ###Resultado.
 
@@ -16,13 +18,13 @@ Hoy a la distancia me permito hacer un analisis respecto a la solución desarrol
 	</div>
 </div>
 
-Este manual tratare de explicar una metodologia para el desarrollo de dichos mapas. El cual esta dividido en 3 partes: en la **1ra** parte tratare de explicar como genearar un embedido basado en canvas desarrollado con **svg** y **Javascript**, la **2da** parte explicare como desarrollar tus propios mapas **SVG** y como integrarlos, y finalmente como **3ra** parte consta de la conclusión e ideas a futuro, sin mas espero que sea de tu agrado.
+Este manual tratare de explicar una metodología para el desarrollo de dichos mapas. El cual esta dividido en 3 partes: en la **1ra** parte tratare de explicar como generar un embebido basado en canvas desarrollado con **svg** y **Javascript**, la **2da** parte explicare como desarrollar tus propios mapas **SVG** y como integrarlos, y finalmente como **3ra** parte consta de la conclusión e ideas a futuro, sin mas espero que sea de tu agrado.
 
 ## Entrenamiento previo
 
->[**Raphael.js**](http://raphaeljs.com/) es un framework para el manejo de canvas, la caracteristica  que mas me agrada es que esta basado en el estandar **SVG**.
+>[**Raphael.js**](http://raphaeljs.com/) es un framework para el manejo de canvas, la característica  que mas me agrada es que esta basado en el estándar **SVG**.
 
-Por ejemplo el estandar **svg** discribe una secuencia de puntos(ó nodos) los cuales pueden ser curvas de baizer entre otras, esta secuencia de puntos es conocida como [**path**](http://w3c.com/svg/path). por otra parte **Raphael** define una función con el mismo nombre **path** el cual recibe como argumento un `String` que describe la secuencia de puntos.
+Por ejemplo el estándar **svg** describe una secuencia de puntos(ó nodos) los cuales pueden ser curvas de baizer entre otras, esta secuencia de puntos es conocida como [**path**](http://w3c.com/svg/path). por otra parte **Raphael** define una función con el mismo nombre **path** el cual recibe como argumento un `String` que describe la secuencia de puntos.
 
 
 ###Creo que queda más claro con el siguiente código Javascript:
@@ -40,21 +42,21 @@ Por ejemplo el estandar **svg** discribe una secuencia de puntos(ó nodos) los c
 	<div id="cat_gnu">
 	</div>
 
-Como podemos ver existe mucha trasparencia entre el estandar **SVG** y el espacio de nombres(`namespace`) que define **Raphael.js**, en este caso por cuestiones didacticas el argumento que recibe path es solo una pequeña secuencia, pero puedes ver el resultado:
+Como podemos ver existe mucha transparencia entre el estándar **SVG** y el espacio de nombres(`namespace`) que define **Raphael.js**, en este caso por cuestiones didácticas el argumento que recibe path es solo una pequeña secuencia, pero puedes ver el resultado:
 
 <div id="cat_gnu">
 </div>
 
 
-## Descubriendo el Came, Came Ha!!.
+## Haciendo Came, Came Ha!!.
 
-El **came came Ha!** No es otra cosa que la técnica que no es mia, pero  que descubri, la aprendi, que estoy intentando mejorar y compartir.
+> Entiéndase **came came Ha!** como una técnica que no es mía(_del autor de este articulo_), pero  que descubrí, la aprendí, que estoy intentando mejorar y compartir.
 
-Tras una busqueda me encontre con un articulo que personalmente me agrado mucho la idea y del cual baso la primera parte de este manual, dejo la liga la cual te invito a revisar(aunque tratare de explicar a mayor detalle):
+Tras una búsqueda me encontré con un articulo que personalmente me agrado mucho la idea y del cual baso la primera parte de este manual, dejo la liga la cual te invito a revisar(aunque tratare de explicar a mayor detalle):
 
 <http://return-true.com/2011/06/using-raphaeljs-to-create-a-map/>
 
-Dada la explicación previa acerca de **Raphael.js**, ¿que pasaria si a `pathGatoGNU` le agregamos algun evento?, por ejemplo el evento `click`, como se muetra acontinuación:
+Dada la explicación previa acerca de **Raphael.js**, ¿que pasaría si a `pathGatoGNU` le agregamos algún evento?, por ejemplo el evento `click`, como se muestra a continuación:
 
 	pathGatoGNU.click(function(){
 		alert('Miauuuuuuuuuu!');
@@ -62,7 +64,7 @@ Dada la explicación previa acerca de **Raphael.js**, ¿que pasaria si a `pathGa
 
 El resultado lo puedes ver en el [ejemplo 02](./ejemplo02/index.html) de este pequeño manual, puedes probar con darle `click` encima del **gatoGNU**.
 
-Esta misma idea la podemos trasladar al evento `hover` y con esto generamos el efecto del cambio de color en el momento en que el mouse se posiciones sobre algun `path` y con el evento `click` podemos cambiar el `location` de nuestra pagina y con esto generar un enlace, pues simplemente así es como funciona el **mapa de México** que se mostro en el inicio.
+Esta misma idea la podemos trasladar al evento `hover` y con esto generamos el efecto del cambio de color en el momento en que el mouse se posiciones sobre algun `path` y con el evento `click` podemos cambiar el `location` de nuestra pagina y con esto generar un enlace, pues simplemente así es como funciona el **mapa de México** que se mostró en el inicio.
 
 En este caso como son varios estados la información de los `paths` se agregaron en un objeto `json` el cual tiene la siguiente sintaxis.
 
@@ -86,7 +88,7 @@ En este caso como son varios estados la información de los `paths` se agregaron
 
 
 
-##Atiendo el siguiente Código en Javascript
+## Observe el siguiente Código en Javascript
 
 
 	jQuery(function($){
@@ -128,4 +130,6 @@ En este caso como son varios estados la información de los `paths` se agregaron
 	});
 
 
-<http://raphaeljs.com/australia.html>
+Otro ejemplo interesante:
+
+ - <http://raphaeljs.com/australia.html>

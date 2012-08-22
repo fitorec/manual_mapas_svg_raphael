@@ -1,0 +1,79 @@
+#!/bin/bash
+#
+#Requiere:
+# - Git
+# - Markdown
+# - wkhtmltopdf <- Sólo para generar pdfs.
+
+# Colores solo para que se distinga un poco mejor(creo yo) los procesos que
+# realiza el script.
+cyan='\e[0;36m'
+light='\e[1;36m'
+red="\e[0;31m\033[1m"
+yellow="\e[0;33m"
+white="\e[0;37m"
+end='\e[0m'
+STARTTIME=$(date +%s )
+NUM_SESIONES=5
+
+#Revisamos que las dependencias se cumplan satisfactoriamente
+DEPENDENCIES="git markdown"
+for dep in $DEPENDENCIES
+do
+	which $dep > /dev/null;
+	if [ $? -ne 0 ]
+	then
+			echo -e "Dependencia incumplida ${dep}, favor de instalar";
+			echo -e "sudo apt-get install ${dep}";
+	fi
+done;
+
+#optenemos la ruta del repositorio
+repo_path=$(git rev-parse --show-toplevel)
+
+##########################################################################################
+# Genera la versión todo en un documento
+##########################################################################################
+function versionPDF {
+		wkhtmltopdf -n -g "${repo_path}/index.html" "readme.pdf"
+}
+
+#Revisamos que el archivo de entrada tenga la extensión adecuada.
+(echo ${1} | grep -Evq '\.md$') && (echo "El documento de entrada ${1} debe tener la extension md"; exit 1 );
+#generamos el nombre que tendra el archivo de salida
+archivo_salida=`echo ${1} | sed 's/\.md$/.html/'`;
+
+LOCAL_NAME=$(echo ${archivo_salida} | sed "s|${repo_path}||");
+NUM_SESION=$(echo ${LOCAL_NAME} | grep -Eo "sesion[0-9]+" | grep -Eo "[1-9]+" | sed -r 's/^[0]+//');
+if [ ! "$NUM_SESION" ]
+then
+	NUM_SESION='0'
+fi
+
+echo -ne "\t${LOCAL_NAME}                                    \r";
+
+#Optenemos la referencia local
+aux_path_level=`echo ${1} | sed "s|${repo_path}||i" | xargs dirname`;
+refPath='./';
+
+while [ "${aux_path_level}" != "/" ]; do
+	aux_path_level=`dirname $aux_path_level`;
+	refPath=`echo ${refPath}../`;
+done
+
+USER=`eval whoami`
+#generamos el titulo
+TITLE=`markdown $1 | grep -Eo "<h1>.*</h1>" | head -1 | sed -r  "s/<h1>(.*)<\/h1>/\1/"`
+##########################################################################################
+#generando el archivo de salida.
+##########################################################################################
+cat "$repo_path/plantilla/cabecera.html" |\
+sed  "s|%NUM_SESIONES%|$NUM_SESIONES|g;s|%refPath%|$refPath|g;s|%LOCAL_NAME%|$LOCAL_NAME|g;s|%TITLE%|$TITLE|g;s|%NUM_SESION%|$NUM_SESION|g"\
+ > $archivo_salida
+
+#Generando el archivo en markdown
+markdown $1 | sed -r 'N; s|\n</code>|</code>|g;'  >> $archivo_salida
+
+#Fin del content,Agregamos pie de pagina, finalmente cerramos el body y del documento html
+cat "$repo_path/plantilla/pie_pagina.html"  >> $archivo_salida
+#//firefox $archivo_salida &
